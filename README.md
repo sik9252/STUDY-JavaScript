@@ -37,3 +37,21 @@ document.getElementById("hello").style.fonstSize = "30px";
 라고 하면 해당 id에 해당하는 글자 크기가 30px로 바뀐다.
 
 ---
+
+## onclick 속성
+
+```html
+<div class="alert-box" id="alert">Alert Box</div>
+<button onclick="showAlert()">Click</button>
+```
+
+html에서 클릭하면 이벤트를 실행해줄 요소에 onclick="함수명" 속성을 준다.
+
+```js
+alertBox = document.getElementById("alert");
+const showAlert = () => {
+  alertBox.style.display = "block";
+};
+```
+
+javascript에 onclick 속성이 붙어있는 요소와 상호작용시 실행할 함수를 구현한다.
