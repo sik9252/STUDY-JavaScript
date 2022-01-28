@@ -30,8 +30,6 @@ body 내부에 들어있는 UI들은 브라우저가 자신들보다 위에 있�
 
 async는 HTML을 파싱하다가 script 태그를 만나면 남은 HTML을 파싱하면서 script를 다운로드한다. 다만 `script의 파일은 다운로드 -> 실행 HTML 파싱이 함께 되지만, 실행 도중에는 파싱이 멈추게 된다.
 
-결론적으로 ①번의 문제를 다시 겪을수 있음.
-
 ### ④ head 안에서 defer를 이용
 
 마찬가지로 HTML을 읽다가 script 태그를 만나면 남은 HTMl 파싱과 동시에 script를 다운로드한다. 다만, `다운로드 후 바로 실행이 되는 것이 아니라 HTML 파싱이 완료된 후에 script를 실행`한다.
@@ -39,6 +37,14 @@ async는 HTML을 파싱하다가 script 태그를 만나면 남은 HTML을 파�
 따라서 요 방법이 제일 나은 방법이라고 할 수 있을것 같다.
 
 하지만, 개발자라면 매번 다른 환경에서의 가장 적절한 방법을 선택해야 하는법이므로 현재로서는 ④번이 최고같지만 이외의 방법들도 알고 있는게 좋을 것 같다.
+
+**요약**
+
+> DOM을 따라 반드시 순서대로 실행되어야 한다면 `<script>`
+
+> DOM이나 다른 스크립트에 의존성이 없고, 실행 순서가 중요하지 않은 경우라면 `<script async>`
+
+> DOM이나 다른 스크립트에 의존성이 있고, 실행 순서가 중요한 경우라면 `<script defer>`
 
 ---
 
@@ -301,5 +307,65 @@ $(".btn").on("click", function () {
 ```
 
 그리고 slideup()이나 이런 것들을 사용해서 순수 자바스크립트만으로는 쉽게 구현하기 힘든 애니메이션도 단방에 구현할 수 있다.
+
+---
+
+## UI 모달 창 만들기
+
+```
+실습 파일
+
+1. ./Level-1/html/modal.html
+2. ./Level-1/css/modal.css
+```
+
+모달 창은 모든 요소들중 가장 앞에 등장해야 하므로 z-index 와 같은 것을 이용해 위치를 조절해준다. 또한 z-index는 position 속성이 들어간 요소들에 쓸 수 있는 속성이기 때문에 position: fixed를 이용해 브라우저 화면에 딱 달라붙게 만들어 주는것도 좋다.
+
+만드는 것은 간단해서 적을게 별로 없었는데 **이번 모달 창 만들기 실습을 하면서 의문이 들었던 점**이 있었다.
+
+나는 이 실습을 할때 Bootstrap과 jQuery 스크립트를 외부에서 가져와 연결해주었는데 전에 body 태그의 맨 마지막에 script 태그들을 모두 넣는것보다 head 안에서 defer을 사용하면 더 효율적이다 라고 공부한 것 같아서 `Bootstrap과 jQuery를 받아오는 script 태그를 모두 head 안에 넣고 defer 속성을 붙여`주었다. (알기로 defer와 같은 속성은 src 속성이 존재하는 script에만 사용이 가능하다고 했다.) `그런데 갑자기 아무리 버튼을 눌러도 만든 모달 창이 뜨지 않는 것`이었다.
+
+그래서 원래 있던대로 body 태그 마지막에 Bootstrap, jQuery, 내가 만든 script 태그 순으로 다시 작성해주었더니 이번에는 또 정상 작동을 했다.
+
+혹시? 해서 이번에는 body 태그 마지막에 내가 만든 script 태그, Bootstrap, jQuery 순으로 작성했더니 버튼을 아무리 눌러도 모달창이 또 열리지 않았다.
+
+일단 내가 만든 script 태그, Bootstrap, jQuery 순으로 작성했던 제일 마지막 시도는 내가 만든 script 태그에서는 Bootstrap의 버튼도 참조해야하고, jQuery도 사용해야 하는데 그것들이 다운로드되고 실행되기 이전에 사용하려고 해서 그런것 같았다.
+
+하지만, defer 태그를 사용한 것은 왜 안되는지 계속 의문이여서 1시간 가까이 그것에 대해 고민해보았다.
+
+내가 세운 가설은 이렇다.
+
+일단 나는 아래와 같은 형식으로 코드를 작성했었다.
+
+```html
+<html>
+  <head>
+    <!-- src 파일 이름은 임시로 지은것 -->
+    <script defer src="bootstrap.js"></script>
+    <script defer src="jQuery.js"></script>
+  </head>
+  <body>
+    <!-- 누르면 모달창이 나오는 버튼 -->
+    <a href="#" class="btn btn-primary btn-lg" id="login" role="button">
+      Login
+    </a>
+    <!-- 내가 만든 script -->
+    <script>
+      $("#login").on("click", function () {
+        $(".black-bg").show();
+      });
+    </script>
+  </body>
+</html>
+```
+
+일단 defer 스크립트의 실행은 HTML의 페이지 구성이 끝날때까지 지연된다. 따라서 아래와 같은 시나리오를 생각해볼 수 있다.
+
+1. Bootstrap이 deferred 된다.
+2. jQuery가 deferred 된다.
+3. jQuery에 의존하는 Bootstrap 버튼을 로드하는 내가 만든 script 블록이 실행되야 하는데 지연된 Bootstrap과 jQuery가 deferred되어 아직 로드되지 않았기 때문에 실행이 중단된다. **아마 그래서 버튼을 눌러도 모달창이 보이지 않았던것같다.**
+4. Bootstrap과 jQuery가 실제로 로드된다.
+
+여기저기 검색하면서 알아낸 지식을 바탕으로 나의 생각을 적어본것이라 정확하다고 할수 없기 때문에 참고만 하길 바란다.
 
 ---
