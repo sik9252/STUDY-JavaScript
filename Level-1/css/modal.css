@@ -20,3 +20,11 @@
   padding: 20px;
   border-radius: 10px;
 }
+
+#email-alert {
+  display: none;
+}
+
+#password-alert {
+  display: none;
+}
