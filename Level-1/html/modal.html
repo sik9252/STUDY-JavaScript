@@ -44,6 +44,11 @@
       </div>
     </div>
 
+    <div class="menu" id="menu">
+      <p>Home</p>
+      <p>MyPage</p>
+    </div>
+
     <div class="jumbotron main-bg">
       <h1 class="display-4">Shirts Studio</h1>
       <p class="lead">
@@ -55,9 +60,10 @@
         It uses utility classes for typography and spacing to space content out
         within the larger container.
       </p>
-      <a href="#" class="btn btn-primary btn-lg" id="login" role="button">
-        Login
-      </a>
+      <a class="btn btn-primary btn-lg" id="login" role="button"> Login </a>
+      <a id="show-menu" class="btn btn-danger btn-lg" role="button"
+        >Show Menu</a
+      >
     </div>
 
     <script
@@ -72,10 +78,12 @@
     ></script>
 
     <script>
+      // login 버튼
       $("#login").on("click", function () {
         $(".black-bg").show();
       });
 
+      // 로그인 창 입력 폼 검사
       $("form").on("submit", function (e) {
         if ($("#email").val() === "") {
           e.preventDefault();
@@ -84,6 +92,11 @@
           e.preventDefault();
           $("#password-alert").show();
         }
+      });
+
+      // show menu 버튼 누르면 슬라이딩
+      $("#show-menu").on("click", function () {
+        $("#menu").animate({ marginLeft: "0px" }, 500);
       });
     </script>
   </body>
