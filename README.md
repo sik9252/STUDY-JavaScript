@@ -514,4 +514,70 @@ var 키워드는 중복 선언이 가능해 예기치 못한 값을 반환할 �
 
 이런식으로 {}안에 ,를 통해 여러 css를 작성해줄수도 있고, animate 함수의 2번째 인자로 숫자를 주어 애니메이션의 동작 속도를 조절할수도 있다.
 
+또한 아래 코드처럼 jQuery 함수 여러개를 붙여 사용할수도 있다. 이 경우 순차적으로 실행된다. 아래의 경우 show() -> animate() 순으로
+
+```html
+<!-- show()와 animate() 함수를 붙여서 한번에 작성함 -->
+<script>
+  $("#login").on("click", function () {
+    $(".black-bg").show().animate({ marginTop: "0px" });
+  });
+</script>
+```
+
+하지만, jQuery의 animation() 함수를 사용해 애니메이션을 만드는것은 쉽긴 하지만 잘 사용하는 방법이 아니고 .css()함수를 이용해 만드는것이 더 낫다고 한다.
+
+<br>
+
+**.css() 이용하기**
+
+```css
+.black-bg {
+  /* 일단 이렇게 항상 보이게 해주고 */
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 5;
+  /* transition으로 스무스하게 움직이도록 설정 */
+  transition: all 1s;
+  /* 모달창 아예 안보이게 위로 밀어넣기 */
+  transform: translateY(-500);
+}
+```
+
+이때 transform 대신 margin-top을 사용해도 되는데 transform을 사용하는 것이 더 부드럽고 자연스럽다! 따라서 `transform을 애용`하도록 하자.
+
+```html
+<!-- .css() 함수 사용 -->
+<script>
+  $("#login").on("click", function () {
+    $(".black-bg").css("margin-top", "0px");
+  });
+</script>
+```
+
+<br>
+
+**addClass() 이용하기**
+
+addClass()를 이용해 아예 애니메이션 클래스를 새로 만들어주는 법도 존재한다. 이렇게 css class를 부착하는 방법으로 시작/최종 애니메이션 화면을 개발하는 습관을 들이는것이 여러모로 좋을 것 같다. 작게 한가지 기능만으로 나누어두면 나중에 유지보수가 편할것 같은?
+
+```css
+/* slide-down 이란 클래스 스타일을 하나 만들어두고 */
+.slide-down {
+  transform: translateY(0px);
+}
+```
+
+```html
+<script>
+  // addClass()로 slide-down 클래스를 추가
+  $("#login").on("click", function () {
+    $(".black-bg").addClass("slide-down");
+  });
+</script>
+```
+
 ---
