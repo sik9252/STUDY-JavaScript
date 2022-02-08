@@ -80,7 +80,15 @@
     <script>
       // 로그인 모달창 slide down 애니메이션
       $("#login").on("click", function () {
-        $(".black-bg").addClass('slide-down');
+        $(".black-bg").show().addClass("slide-down");
+      });
+
+      $(".black-bg").on("click", function (e) {
+        //console.log(e.currentTarget);
+        //console.log(e.target);
+        if (e.target == e.currentTarget) {
+          $(".black-bg").hide().removeClass("slide-down");
+        }
       });
 
       // 로그인 창 입력 폼 검사
