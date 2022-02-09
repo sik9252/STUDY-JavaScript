@@ -655,3 +655,23 @@ e.currentTarget은 이벤트리스너가 달린 요소로 black-bg를 가리키�
 **해결법**
 
 특정 요소에 addClass()를 해줬으면 그 특정 요소가 사라질때 removeClass()를 해주니까 해결되었다. 요소가 사라졌는데도 Class가 계속 남아있어 저런 현상이 일어났던것 같다.
+
+---
+
+## Array와 Object
+
+**Array 자료형**
+
+```js
+let array = ["red", "orange", "yellow"];
+console.log(array[1]); // orange
+```
+
+**Object 자료형**
+
+```js
+// key: value 쌍의 형식으로 저장함
+let Obj = { color: "red", hex: "ff0000" };
+console.log(Obj.color); // red
+console.log(Obj["color"]); // red
+```
