@@ -658,7 +658,7 @@ e.currentTarget은 이벤트리스너가 달린 요소로 black-bg를 가리키�
 
 ---
 
-## Array와 Object
+## Array, Object와 데이터 바인딩
 
 **Array 자료형**
 
@@ -675,3 +675,50 @@ let Obj = { color: "red", hex: "ff0000" };
 console.log(Obj.color); // red
 console.log(Obj["color"]); // red
 ```
+
+그럼 위의 방식으로 구성된 데이터들을 가지고 실제 사이트에 데이터를 어떻게 적용할수 있는지 생각해볼수 있다.
+
+```js
+let ArrayData = ["BMW", 520];
+let ObjData = { brand: "BMW", model: 520 };
+```
+
+위와같은 데이터가 존재한다고 했을때 쇼핑몰 사이트에 브랜드명과 모델명을 출력하는 코드를 작성해보았다.
+
+```html
+<p id="title">브랜드명</p>
+<p id="name">모델명</p>
+
+<script>
+  // 배열로 구성된 데이터들을 꺼낼때
+  document.getElementById("title").innerHTML = ArrayData[0];
+  document.getElementById("name").innerHTML = ArrayData[1];
+
+  // 객체로 구성된 데이터들을 꺼낼때
+  document.getElementById("title").innerHTML = ObjData.brand;
+  document.getElementById("name").innerHTML = ObjData.model;
+
+  // jQuery로 작성하면
+  $("#title").html(ArrayData[0]);
+  $("#name").html(ArrayData[1]);
+
+  $("title").html(ObjData.brand);
+  $("name").html(ObjData.model);
+</script>
+```
+
+그렇다면 데이터들이
+
+```js
+let data = [{ brand: "BMW" }, { model: 520 }];
+```
+
+와 같이 존재한다고 할때 브랜드명을 출력하려면 코드를 어떻게 작성해야 하는지도 생각해볼수 있을것 같다.
+
+```js
+$("title").html(data[0].brand);
+```
+
+위와 같이 작성하면 되고 이렇게 자바스크립트로 데이터를 뽑아 출력하는것을 `데이터바인딩`이라고 한다.
+
+---
