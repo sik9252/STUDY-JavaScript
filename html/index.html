@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./css/main.css" rel="stylesheet" />
+    <link href="../css/main.css" rel="stylesheet" />
     <script
       src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
+    <script defer src="../js/index.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -27,24 +28,5 @@
     <button onclick="checkInput('block','비밀번호를 입력해주세요')">
       비밀번호확인
     </button>
-    <!-- 자바스크립트 -->
-    <script>
-      alertBox = document.getElementById("alert");
-      alertContent = document.getElementById("content");
-      hideAlert = document.getElementById("hide");
-
-      $(".abc").html("안녕하세요");
-
-      $("#test").text("안녕");
-
-      const checkInput = (style, contents) => {
-        alertBox.style.display = style;
-        alertContent.innerHTML = contents;
-      };
-
-      hideAlert.addEventListener("click", function () {
-        alertBox.style.display = "none";
-      });
-    </script>
   </body>
 </html>
