@@ -722,3 +722,67 @@ $("title").html(data[0].brand);
 위와 같이 작성하면 되고 이렇게 자바스크립트로 데이터를 뽑아 출력하는것을 `데이터바인딩`이라고 한다.
 
 ---
+
+## 인터랙티브한 form 만들기
+
+실습 파일: interactive_form.html/.css/.js
+
+**조건**
+
+1. 옷의 종류(셔츠, 모자, 바지 등)를 고르는 select 폼이 있다.
+2. 평소에는 보이지 않지만, 만약 셔츠를 고르면 셔츠의 사이즈를 선택하는 폼이 나타나야 한다. (다른 옷의 종류를 선택했을때도 마찬가지이다.)
+
+이런 폼을 만들고 싶은 경우 `input과 change 이벤트`에 대해 알아야 한다.
+위에서 잠깐 배웠던 form 이벤트 관련 속성들 중 input과 change가 이에 해당한다.
+
+```js
+$("변경을감지할 인풋").on("change", function () {
+  // 값 변경시 수행되어야할 동작
+});
+```
+
+이런 형태로 구현하면 될것 같다.
+
+실제로 구현한 코드는 아래와 같다.
+
+1️⃣ 부트스트랩과 select 태그를 이용해 선택 목록을 만들어준다.
+
+```html
+<!-- 옷의 종류 선택 -->
+<select class="form-control" id="option1">
+  <option>모자</option>
+  <option>셔츠</option>
+</select>
+
+<!-- 사이즈 선택 -->
+<div class="select-size">
+  <select class="form-control" id="option2">
+    <option>95</option>
+    <option>100</option>
+    <option>105</option>
+  </select>
+</div>
+```
+
+2️⃣ 자바스크립트를 이용해 id가 option1인 것의 값이 '셔츠' 일때만 아래의 사이즈 선택 선택목록이 보이도록 한다.
+
+```css
+/* 일단 기본 상태는 안보이는 상태여야 한다. */
+.select-size {
+  display: none;
+}
+```
+
+```js
+$("#option1").on("change", function () {
+  if ($("#option1").val() == "셔츠") {
+    $(".select-size").show();
+  } else if ($("#option1").val() == "모자") {
+    $(".select-size").hide();
+  }
+});
+```
+
+- $("#option1').val() : 현재 선택된 option1의 값
+
+---
