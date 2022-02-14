@@ -723,7 +723,7 @@ $("title").html(data[0].brand);
 
 ---
 
-## 인터랙티브한 form 만들기
+## 인터랙티브한 form 만들기(1)
 
 실습 파일: interactive_form.html/.css/.js
 
@@ -784,5 +784,79 @@ $("#option1").on("change", function () {
 ```
 
 - $("#option1').val() : 현재 선택된 option1의 값
+
+---
+
+## 인터랙티브한 form 만들기(2)
+
+이전에는 셔츠를 선택했을때에만 사이즈를 선택하는 부분이 나왔는데 이번에는 바지를 선택하면 바지 사이즈를 선택하는 부분이, 셔츠를 선택하면 셔츠 사이즈를 선택하는 부분이 나오도록 해보았다.
+
+선택한 항목에 따라 사이즈를 선택하는 폼이 따로따로 나오게 하기 위해서 `자바스크립트로 HTML을 만들고 집어넣는법`에 대해 배웠는데 과정을 간단히 나타내보면 다음과 같다.
+
+1. 템플릿 만들기
+2. jQuery의 append()로 넣기
+
+최종 코드는 아래와 같다.
+
+```js
+$("#option1").on("change", function () {
+  // 값의 변경이 일어났을때 text를 초기화하고, size 선택칸을 보여준다
+  $("#option2").html("");
+  $(".select-size").show();
+  // 만약 선택한 값이 셔츠라면
+  if ($("#option1").val() == "셔츠") {
+    // 보여줄 템플릿을 만들고
+    let selectTemplate = `<option>95</option>
+      <option>100</option>
+      <option>105</option>`;
+    // append로 해당 템플릿을 원하는 곳에 추가한다.
+    $("#option2").append(selectTemplate);
+  }
+  // 만약 선택한 값이 바지라면
+  else if ($("#option1").val() == "바지") {
+    let selectTemplate = `<option>26</option>
+      <option>28</option>
+      <option>30</option>`;
+    $("#option2").append(selectTemplate);
+  }
+  // 아무것도 선택 안한 상태라면 사이즈 선택칸 숨기기
+  else {
+    $(".select-size").hide();
+  }
+});
+```
+
+하지만 이후에 선택가능한 사이즈가 10개 이상으로 늘어나게 된다면 늘어나는 사이즈 개수만큼 하드코딩을 하는것은 비효율적이다. 이런 경우에는 `출력해야할 데이터들은 배열과 같은 곳에 한번에 정리`해두고 `forEach`와 같은 반복문을 통해 코드를 간단하게 줄일수 있다.
+
+### 일반 반복문으로 구현
+
+```js
+for (i = 0; i < shirtSize.length; i++) {
+  let selectTemplate = `<option>${shirtSize[i]}</option>`;
+  $("#option2").append(selectTemplate);
+}
+```
+
+### forEach를 이용해 구현
+
+`배열이름.forEach(함수)`와 같은 형태로 작성한다.
+
+```js
+shirtSize.forEach(function (i) {
+  // 반복동안 실행할 동작 작성
+});
+```
+
+위에서 일반 반복문인 for을 사용해 구현한 것을 forEach로 바꾸면 아래와 같다.
+
+```js
+shirtSize.forEach(function (i) {
+  let selectTemplate = `<option>${i}</option>`;
+  $("#option2").append(selectTemplate);
+});
+```
+
+`이때 i는 배열의 인덱스인 0,1,2...를 나타내는것이 아닌 배열의 원소 값을 나타낸다.`
+즉, let shirtSize = [90, 95, 100, 105, 110];와 같은 배열이 있으면 90, 95, 100...을 나타낸다는 것이다. (마치 파이썬의 for i in shirtSize와 같은 느낌이다.)
 
 ---
