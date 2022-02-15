@@ -860,3 +860,73 @@ shirtSize.forEach(function (i) {
 즉, let shirtSize = [90, 95, 100, 105, 110];와 같은 배열이 있으면 90, 95, 100...을 나타낸다는 것이다. (마치 파이썬의 for i in shirtSize와 같은 느낌이다.)
 
 ---
+
+## Array of Object 다루기
+
+쇼핑몰 상품 진열대를 만드는 실습을 통해 Array안의 Object를 다루는 것에 익숙해지도록 노력하였다.
+
+### 웹 개발 방식 2가지
+
+- 서버에서 HTML 파일을 미리 다 완성해서 전달
+- 서버에서 텅 빈 HTML 파일과 데이터를 전달하고 프론트에서 JS로 HTML 완성
+
+2번째 방식이 트렌드!
+
+그리고 사실 서버에서 데이터를 가져오려면 Ajax라는 것을 알아야 하지만 아직 배우지 않은 관계로 데이터를 미리 가져왔다고 가정하고 실습을 진행하였다.
+
+```js
+var products = [
+  { id: 0, price: 70000, title: "Blossom Dress" },
+  { id: 1, price: 50000, title: "Springfield Shirt" },
+  { id: 2, price: 60000, title: "Black Monastery" },
+];
+```
+
+이러한 상품 데이터들을 가져왔다고 가정하고 각각의 상품에 해당하는 title과 price를 출력하도록 구현하였다.
+
+### 결과
+
+```js
+// 상품 데이터
+var products = [
+  { id: 0, price: 70000, title: "Blossom Dress" },
+  { id: 1, price: 50000, title: "Springfield Shirt" },
+  { id: 2, price: 60000, title: "Black Monastery" },
+];
+
+// 상품 이름
+products.forEach((product) =>
+  $(".product-name").eq(product.id).html(product.title)
+);
+
+// 상품 가격
+products.forEach((product) =>
+  $(".product-name").eq(product.id).html(`가격: ${product.price}`)
+);
+```
+
+<image src="./images/shoppingmall.png" style="margin:auto">
+
+<br>
+
+### 이번 실습을 통해 알게된 점 정리
+
+`id와 class의 차이`를 알게되었는데, 이를 알게된 계기는 일단 자바스크립트로 각각의 상품에 데이터바인딩을 하려고 상품 제목에 id='product-name'을, 상품 가격에 id='product-price'라는 `id 값을 부여`하고 jQuery를 이용해 $('#product-name').html(products[0].title); 이렇게해서 데이터를 입혀주었다. 그런데 세 상품 모두 동일한 id 이름을 부여해주었기 때문에 세 상품의 이름이 모두 같은것으로 바뀔줄 알았는데 `맨 처음요소 하나만 지정한 상품 이름으로 바뀌고 나머지는 바뀌지 않았다`.
+
+그래서 이번에는 id가 아닌 `class를 부여`해보았는데 `세 상품이 모두 지정한 상품 이름으로 동일하게 바뀌었다`.
+
+이를 통해 알게된 점은 다음과 같다.
+
+> id 는 유일한 요소에 적용
+
+> class 는 복수의 요소에 적용
+
+그럼 id를 각각 따로 3개를 만들거 아니면 class를 부여해서 데이터바인딩을 해줘야할것 같은데 세 상품의 이름이 같으면 안되기때문에 이를 해결하는 방법은 `eq(인덱스)`를 사용하는 것이다.
+
+```js
+  $(".product-name").eq(0)html(products[0].title);
+  $(".product-name").eq(1)html(products[1].title);
+  $(".product-name").eq(2)html(products[2].title);
+```
+
+이것은 선택한 요소의 인덱스 번호에 해당하는 요소를 찾는 메서드로 위의 코드에서는 product-name이란 class 명을 가진 요소들 중 0번째, 1번째, 2번쨰를 찾아주기 때문에 세 상품의 이름을 모두 알맞게 바인딩해줄수 있다.
