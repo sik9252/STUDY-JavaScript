@@ -929,4 +929,99 @@ products.forEach((product) =>
   $(".product-name").eq(2)html(products[2].title);
 ```
 
-이것은 선택한 요소의 인덱스 번호에 해당하는 요소를 찾는 메서드로 위의 코드에서는 product-name이란 class 명을 가진 요소들 중 0번째, 1번째, 2번쨰를 찾아주기 때문에 세 상품의 이름을 모두 알맞게 바인딩해줄수 있다.
+이것은 선택한 요소의 인덱스 번호에 해당하는 요소를 찾는 메서드로 위의 코드에서는 product-name이란 class 명을 가진 요소들 중 0번째, 1번째, 2번째를 찾아주기 때문에 세 상품의 이름을 모두 알맞게 바인딩해줄수 있다.
+
+---
+
+## 자바스크립트 정렬
+
+**sort()** 라는 함수를 사용하면 데이터를 정렬할수 있다.
+하지만 sort()는 **문자열 정렬** 이기 떄문에 숫자 데이터에 사용할 시 잘못된 정렬 결과를 출력한다.
+
+따라서 `sort()를 사용할때는 무엇을 정렬할지에 따라 ()안에 적당한 함수를 작성`해주어야 한다.
+
+따라서 숫자 정렬을 하고 싶으면 아래와 같이 작성해야 한다.
+
+```js
+array = [7, 3, 5, 2, 40];
+// 오름차순 정렬
+array.sort((a, b) => a - b);
+
+// 내림차순 정렬
+array.sort((a, b) => b - a);
+```
+
+**추가**
+
+array=['b','c','a']가 있다고 할때 'a','b','c' 순으로 정렬하려면 array.sort()를 사용하면 되지만, 'c','b','a' 순으로 `역정렬`하려면 어떻게 해야할까?
+
+```js
+array.sort(); // a,b,c
+array.reverse(); // c,b,a
+```
+
+### 객체 정렬
+
+```js
+var products = [
+  { id: 0, price: 70000, title: "Blossom Dress" },
+  { id: 1, price: 50000, title: "Springfield Shirt" },
+  { id: 2, price: 60000, title: "Black Monastery" },
+];
+
+// 상품 가격 오름차순 정렬
+$(".price-sort").click(function () {
+  products.sort(function (a, b) {});
+});
+```
+
+위와 같이 products 라는 오브젝트가 존재한다고 할때 상품 가격을 정렬하는 함수의 인자인 a,b는 products의 각 객체를 나타낸다.
+
+즉 처음에 a는 `{ id: 0, price: 70000, title: "Blossom Dress" }`를 b는 `{ id: 1, price: 50000, title: "Springfield Shirt" }`를 가리키게 된다.
+
+따라서 return a-b와 같이 객체끼리 사칙연산을 할수는 없기 때문에 아래 코드와 같이 a.price, b.price 이런식으로 작성해줘야 한다.
+
+```js
+// 상품 가격 오름차순 정렬
+$(".price-sort").click(function () {
+  products.sort(function (a, b) {
+    return a.price - b.price;
+  });
+});
+```
+
+<br>
+
+그럼 이제 배운것을 이용해 `가격순 정렬`이라는 버튼을 만들어 진열된 상품들이 가격순으로 정렬되도록 해보자.
+
+```js
+// 상품 가격 오름차순 정렬
+$("#sort-cheap").click(function () {
+  products.sort(function (a, b) {
+    return a.price - b.price;
+  });
+
+  products.forEach((product) => {
+    const id = product.id;
+    $(".product-name").eq(id).html(products[id].title);
+    $(".product-price").eq(id).html(`가격: ${products[id].price}`);
+  });
+});
+
+// 상품 가격 내림차순 정렬
+$("#sort-expensive").click(function () {
+  products.sort(function (a, b) {
+    return b.price - a.price;
+  });
+
+  products.forEach((product) => {
+    const id = product.id;
+    $(".product-name").eq(id).html(products[id].title);
+    $(".product-price").eq(id).html(`가격: ${products[id].price}`);
+  });
+});
+```
+
+상품 데이터를 가격 순으로 정렬하고 정렬된 상품을 다시 화면에 출력해주는 코드를 작성하면 완성이다.
+
+---
