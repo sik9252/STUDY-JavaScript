@@ -5,11 +5,34 @@ var products = [
 ];
 
 // 상품 이름
-products.forEach((product) =>
-  $(".product-name").eq(product.id).html(product.title)
-);
+products.forEach((product) => {
+  const id = product.id;
+  $(".product-name").eq(id).html(products[id].title);
+  $(".product-price").eq(id).html(`가격: ${products[id].price}`);
+});
 
-// 상품 가격
-products.forEach((product) =>
-  $(".product-name").eq(product.id).html(`가격: ${product.price}`)
-);
+// 상품 가격 오름차순 정렬
+$("#sort-cheap").click(function () {
+  products.sort(function (a, b) {
+    return a.price - b.price;
+  });
+
+  products.forEach((product) => {
+    const id = product.id;
+    $(".product-name").eq(id).html(products[id].title);
+    $(".product-price").eq(id).html(`가격: ${products[id].price}`);
+  });
+});
+
+// 상품 가격 내림차순 정렬
+$("#sort-expensive").click(function () {
+  products.sort(function (a, b) {
+    return b.price - a.price;
+  });
+
+  products.forEach((product) => {
+    const id = product.id;
+    $(".product-name").eq(id).html(products[id].title);
+    $(".product-price").eq(id).html(`가격: ${products[id].price}`);
+  });
+});
