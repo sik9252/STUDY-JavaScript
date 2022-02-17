@@ -863,6 +863,8 @@ shirtSize.forEach(function (i) {
 
 ## Array of Object 다루기
 
+**실습 파일: shoppingmall.html/.css/.js**
+
 쇼핑몰 상품 진열대를 만드는 실습을 통해 Array안의 Object를 다루는 것에 익숙해지도록 노력하였다.
 
 ### 웹 개발 방식 2가지
@@ -1023,5 +1025,132 @@ $("#sort-expensive").click(function () {
 ```
 
 상품 데이터를 가격 순으로 정렬하고 정렬된 상품을 다시 화면에 출력해주는 코드를 작성하면 완성이다.
+
+---
+
+## filter, map
+
+**filter()**
+
+Array 자료형에서 원하는 데이터만 거를때 사용한다.
+
+위의 sort()와는 다르게 원본 데이터를 변경하지 않는다.
+
+```js
+let array = [7, 3, 5, 2, 40];
+// filter 한 결과는 새로운 변수를 만들어 담아줘야 한다.
+let newArray = array.filter(function (a) {
+  return a < 4; // [3,2]
+});
+```
+
+쇼핑몰 시스템을 예로 들면 3만원 이하의 상품들만을 보여주고 싶은 경우 등에 사용할수 있을것 같다.
+
+<br>
+
+**map()**
+
+기존 데이터에 새로운 작업을 반복해 조작된 새로운 데이터를 만들어야할때 사용한다.
+
+```js
+let array = [7, 3, 5, 2, 40];
+// map한 결과도 새로운 변수를 만들어 담아줘야 한다.
+let newArray = array.map(function (a) {
+  return a * 2; // [14,6,10,4,80]
+});
+```
+
+<br>
+
+### 가나다순 정렬 버튼과 기능 구현
+
+```js
+// 상품 가나다순 정렬
+$("#btn3").click(function () {
+  // 1️⃣
+  products.sort((a, b) => {
+    if (a.title < b.title == true) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+  // 2️⃣
+  products.forEach((product) => {
+    const id = product.id;
+    $(".product-name").eq(id).html(products[id].title);
+    $(".product-price").eq(id).html(`가격: ${products[id].price}`);
+  });
+});
+```
+
+1️⃣ 자바스크립트에서는 문자 2개를 부등호로 비교하는것이 가능하다. 즉, 'ㄱ'<'ㄴ'의 경우 true를 반환한다. 따라서 a객체의 title과 b객체의 title을 비교해 true가 되는 경우 -1을 반환하도록해서 더 나중에 와야할 문자열 b를 오른쪽으로 보내도록 구현한 것이다. (-를 반환하면 해당 값을 오른쪽으로 보내는 성질을 가진 sort()함수의 동작을 이용한 것이다.)
+
+2️⃣ 1번을 통해 정렬한 상품 데이터를 출력하는 코드이다.
+
+<br>
+
+### 6만원이하 필터링 버튼과 기능 구현
+
+```js
+// 6만원 이하만 보기
+$("#btn4").click(function () {
+  // 1️⃣
+  $("#card-group1").hide();
+  $("#card-group2").show();
+  // 2️⃣
+  const newProducts = products.filter((a) => {
+    return a.price <= 60000;
+  });
+  // 3️⃣
+  if ($("#card-group2").empty()) {
+    newProducts.forEach((product) => {
+      const id = product.id;
+      const template = `<div class="card">
+    <img src="https://via.placeholder.com/600" />
+    <div class="card-body">
+      <h5 class="product-name">${newProducts[id - 1].title}</h5>
+      <p class="product-price">${newProducts[id - 1].price}</p>
+      <button class="btn btn-danger">주문하기</button>
+    </div>
+  </div>`;
+      $("#card-group2").append(template);
+    });
+  }
+});
+```
+
+다른 부분보다 이 기능을 구현하는 부분에서 조금 많은 시간을 투자했다.
+많은 시간을 투자하게 된 이유는 '6만원 이하'라는 조건에 알맞는 상품만 필터링해서 보여주고 조건에 부합하지 않는 상품들은 숨겨야 하는데 원래 있던 상품들중에 조건에 부합하는 상품만 남기고 부합하지 않는 상품은 어떻게 삭제해야할지 생각이 떠오르지 않았기 때문이다. 결국 나는 아래와 같은 방법을 통해 문제를 해결했다.
+
+1️⃣ .card-group2라는 컨테이너를 새로 만들어두고 6만원 이하 상품만 보기라는 버튼을 누르면 기존에 있던 .card-group1은 숨기고 조건에 부합하는 상품만 추가해서 보여줄 .card-group2는 보여지도록 했다.
+
+2️⃣ filter() 함수를 이용해 price가 6만원 이하인 상품들만 골라 다시 새로운 newProducts 배열을 만들어주었다.
+
+3️⃣ .card-group2에 조건에 부합하는 상품 데이터들만 새로 추가해 보여주려고 코드를 작성했는데 이전에 추가되었던 데이터가 삭제되지 않고 계속 남아있어 6만원 이하만 보기 버튼을 누를때마다 계속 새로운 데이터가 추가되어 같은 상품이 2개, 4개, 6개...로 늘어나게 되는 버그가 발생했다. 따라서 이를 해결하기 위해 empty() 함수를 이용해 card-group2에 이미 존재하는 요소가 있는지 확인한 후 비어있다면 조건에 부합하는 요소를 추가해 보여줄수 있도록 조건을 걸어주었다.
+
+**결과 이미지**
+
+1. 가격 낮은순 정렬
+
+<image src="./images/cheapest.png" style="margin:auto">
+
+2. 가격 높은순 정렬
+
+<image src="./images/expensive.png" style="margin:auto">
+
+3. 가나다순 정렬
+
+<image src="./images/alphabet.png" style="margin:auto">
+
+4. 6만원 이하만 보기
+
+<image src="./images/filter.png" style="margin:auto">
+
+<br>
+
+**깨달은점**
+
+데이터의 갯수가 엄청 많아지거나 수시로 변경될수 있으므로 하드코딩해서 HTML 만들어두고 바꾸는것보다는 그때그때 동적으로 HTML을 생성해주는 방법이 더 확장성있고 좋은 코딩방법인것 같다.
 
 ---
