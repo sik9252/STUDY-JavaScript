@@ -14,39 +14,51 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="card-group container">
+    <div id="card-group1" class="card-group container">
       <div class="card">
         <img src="https://via.placeholder.com/600" />
         <div class="card-body">
-          <h5 class="product-name">card title</h5>
-          <p class="product-price">가격: 70000</p>
+          <h5 class="product-name"></h5>
+          <p class="product-price"></p>
           <button class="btn btn-danger">주문하기</button>
         </div>
       </div>
       <div class="card">
         <img src="https://via.placeholder.com/600" />
         <div class="card-body">
-          <h5 class="product-name">card title</h5>
-          <p class="product-price">가격: 70000</p>
+          <h5 class="product-name"></h5>
+          <p class="product-price"></p>
           <button class="btn btn-danger">주문하기</button>
         </div>
       </div>
       <div class="card">
         <img src="https://via.placeholder.com/600" />
         <div class="card-body">
-          <h5 class="product-name">card title</h5>
-          <p class="product-price">가격: 70000</p>
+          <h5 class="product-name"></h5>
+          <p class="product-price"></p>
           <button class="btn btn-danger">주문하기</button>
         </div>
       </div>
     </div>
-
+    <div id="card-group2" class="card-group container"></div>
+    <!-- 가격 낮은순 정렬 -->
     <div class="container my-4">
-      <button id="sort-cheap" class="btn btn-primary">가격 낮은순 정렬</button>
+      <button id="btn1" class="btn btn-primary">가격 낮은순 정렬</button>
     </div>
 
+    <!-- 가격 높은순 정렬 -->
     <div class="container my-4">
-      <button id="sort-expensive" class="btn btn-primary">가격 높은순 정렬</button>
+      <button id="btn2" class="btn btn-primary">가격 높은순 정렬</button>
+    </div>
+
+    <!-- 가나다순 정렬 -->
+    <div class="container my-4">
+      <button id="btn3" class="btn btn-primary">가나다순 정렬</button>
+    </div>
+
+    <!-- 6만원 이하만 보기 -->
+    <div class="container my-4">
+      <button id="btn4" class="btn btn-primary">6만원 이하만 보기</button>
     </div>
 
     <script
