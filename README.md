@@ -1154,3 +1154,106 @@ $("#btn4").click(function () {
 데이터의 갯수가 엄청 많아지거나 수시로 변경될수 있으므로 하드코딩해서 HTML 만들어두고 바꾸는것보다는 그때그때 동적으로 HTML을 생성해주는 방법이 더 확장성있고 좋은 코딩방법인것 같다.
 
 ---
+
+## Ajax
+
+request의 종류에는 2가지가 있다.
+
+- GET: URL을 입력해서 요청
+
+  ex) 웹페이지 읽거나 데이터 받아올때
+
+- POST: 정보를 숨겨서 전달, 요청
+
+  ex) 로그인, 글발행 등 정보 전송할때
+
+`Ajax`는 서버에 GET/POST 요청을 할 수 있게 도와준다. 단, `새로고침 없이 요청이 가능`하다는 장점이 있다.
+
+**Ajax 요청하는법**
+
+```js
+  $.ajax({
+    url:'요청할 url 링크 입력',
+    type:'GET'
+  )};
+```
+
+위와 같이 작성하면 url에 해당하는 서버에 GET 요청을 보내 해당 서버가 주는 데이터를 가져오라는 명령을 내릴수 있다.
+
+**가져온 데이터 확인하는법**
+
+```js
+    $.ajax({
+    url:'요청할 url 링크 입력',
+    type:'GET'
+    // 가져온 데이터 확인
+  )}.done(function(data){
+    // 받아온 데이터 출력
+    console.log(data)
+  });
+```
+
+그럼 이러한 동작과정을 응용해
+
+```html
+<body>
+  <h4 id="hello">임시글씨</h4>
+  <button id="btn">버튼</button>
+</body>
+```
+
+위의 코드로 실행된 사이트에서 버튼을 눌렀을때 임시글씨라고 써있는 글자를 특정 서버에서 가져온 데이터로 바꾸어보는 실습을 해보았다.
+
+```js
+// 버튼을 클릭했을때
+$("#btn").click(() => {
+  // 해당 url로 GET 요청을 해서 데이터를 받아옴
+  $.ajax({
+    url: "https://codingapple1.github.io/hello.txt",
+    type: "GET",
+  }).done((data) => {
+    // 데이터를 받아왔으면 id=hello인 곳의 text를 변경
+    $("#hello").html(data);
+  });
+});
+```
+
+ajax 요청시 사용할수 있는 함수에는 done() 이외에도 fail(), always()와 같은 함수가 있다.
+
+- fail(): ajax 요청 실패시 실행할 코드
+- always(): ajax 요청시 항상 실행할 코드
+
+마지막으로 이러한 Ajax를 이용해 어떤 서버에 요청을 보내 쇼핑몰 상품의 이름, 가격, 이미지 등을 받아와 데이터바인딩 해주는 식으로 고객에게 상품을 보여주는 실습을 해보았다.
+
+1️⃣ 부트스트랩을 이용해 card 레이아웃을 빠르게 만들고
+
+```html
+<div class="card">
+  <img src="" alt="" class="card-img-top" alt="" />
+  <div class="card-body">
+    <h5 class="card-title"></h5>
+    <p class="card-text"></p>
+    <p class="price"></p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+```
+
+2️⃣ ajax를 이용해 요청후 데이터를 받아와 바인딩해주면 된다.
+
+```js
+$("#btn").click(() => {
+  $.ajax({
+    url: "https://codingapple1.github.io/data.json",
+    type: "GET",
+  }).done((data) => {
+    // 이미지 받아오는 법은 살짝 다름
+    $(".card-img-top").attr("src", data.img);
+    $(".card-title").html(data.model);
+    $(".card-text").html(data.brand);
+    $(".price").html(data.price);
+  });
+});
+```
+
+---
