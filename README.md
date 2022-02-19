@@ -83,11 +83,13 @@ document.getElementsByClassName("클래스명")[X];
 .querySelector라는 것도 있다.
 
 ```js
-// 해당 이름을 가진 요소 하나만 선택
+// 해당 이름을 가진 맨 위에 존재하는 요소 하나만 선택
 document.querySelector("#test");
 // 같은 이름을 가진 여러 요소중에 X번째를 선택
 document.querySelectorAll("#test")[X];
 ```
+
+querySelectorAll은 해당하는 요소를 다 찾아서 [] 안에 담아줌으로 [인덱스번호]를 이용해 원하는 요소를 찾아 사용하면 된다.
 
 ---
 
@@ -655,6 +657,25 @@ e.currentTarget은 이벤트리스너가 달린 요소로 black-bg를 가리키�
 **해결법**
 
 특정 요소에 addClass()를 해줬으면 그 특정 요소가 사라질때 removeClass()를 해주니까 해결되었다. 요소가 사라졌는데도 Class가 계속 남아있어 저런 현상이 일어났던것 같다.
+
+**추가**
+
+`jQuery로 클래스 제어`
+
+1. 클래스 추가: .addClass(추가1 추가2 추가3)
+2. 클래스 제거: .removeClass()
+3. 클래스 교체: .switchClass(기존, 바꿀거)
+4. 클래스 새로 지정: .attr(기존, 새거)
+5. 클래스 존재 여부: .hasClass()
+6. 클래스 토글: .toggleClasS()
+
+`JavaScript로 클래스 제어`
+
+1. 클래스 추가: .classList.add(추가1, 추가2, 추가3)
+2. 클래스 제거: .classList.remove()
+3. 클래스 교체: .classList.replace()
+4. 클래스 존재 여부: .classList.contains()
+5. 클래스 토글: .classList.toggle(클래스명, true/false)
 
 ---
 
