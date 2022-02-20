@@ -26,3 +26,20 @@ $("#option1").on("change", function () {
     $(".select-size").hide();
   }
 });
+
+// 다크 & 라이트 모드 버튼 제어
+let count = 0;
+$("#btn").on("click", (e) => {
+  count += 1;
+  console.log(count);
+  // count가 짝수면 Light로 홀수면 Dark로
+  if (count % 2 == 0) {
+    $("#mode").html("Dark");
+    $("#body").css("backgroundColor", "white");
+    e.preventDefault();
+  } else if (count % 2 == 1) {
+    $("#mode").html("Light");
+    $("#body").css("backgroundColor", "#373737");
+    e.preventDefault();
+  }
+});

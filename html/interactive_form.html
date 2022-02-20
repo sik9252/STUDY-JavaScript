@@ -15,7 +15,7 @@
     <script defer src="../js/interactive_form.js"></script>
     <title>Interactive-Form</title>
   </head>
-  <body>
+  <body id="body">
     <form class="container my-5">
       <div class="form-group">
         <p>상품선택</p>
@@ -30,6 +30,11 @@
             <select class="form-control" id="option2"></select>
           </div>
         </div>
+      </div>
+      <div class="mt-3">
+        <button id="btn" class="btn btn-dark rounded-pill text-white">
+          <span id="mode">Dark</span> 모드로 바꾸기
+        </button>
       </div>
     </form>
     <script
